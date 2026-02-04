@@ -15,7 +15,6 @@
             background: black;
         }
 
-        /* Background container */
         .background {
             position: fixed;
             width: 100%;
@@ -105,7 +104,6 @@
 
 <body>
 
-<!-- Background -->
 <div class="background">
     <img src="shizu.jpg" alt="Shizu">
 </div>
@@ -127,8 +125,8 @@
     const maxScore = 10;
     const basket = document.getElementById("basket");
     const scoreDisplay = document.getElementById("score");
+    let heartInterval;
 
-    // Move basket safely (desktop + mobile)
     function moveBasket(x) {
         let basketWidth = basket.offsetWidth;
         let newLeft = x - basketWidth / 2;
@@ -140,12 +138,10 @@
         basket.style.left = newLeft + "px";
     }
 
-    // Desktop
     document.addEventListener("mousemove", function(e) {
         moveBasket(e.clientX);
     });
 
-    // Mobile
     document.addEventListener("touchmove", function(e) {
         let touch = e.touches[0];
         moveBasket(touch.clientX);
@@ -178,7 +174,7 @@
                 clearInterval(fallInterval);
 
                 if (score >= maxScore) {
-                    document.getElementById("proposal").style.display = "block";
+                    endGame();
                 }
             }
 
@@ -189,7 +185,13 @@
         }, 20);
     }
 
-    setInterval(createHeart, 1000);
+    function endGame() {
+        clearInterval(heartInterval);        // stop new hearts
+        basket.style.display = "none";       // remove basket
+        document.getElementById("proposal").style.display = "block";
+    }
+
+    heartInterval = setInterval(createHeart, 1000);
 
     document.getElementById("yesBtn").onclick = function() {
         document.getElementById("proposal").innerHTML =
