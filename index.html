@@ -3,6 +3,8 @@
 <head>
     <title>Catch My Heart Shizu 💖</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
             margin: 0;
@@ -31,7 +33,6 @@
             filter: blur(4px) brightness(60%);
         }
 
-        /* Dark overlay */
         .background::after {
             content: "";
             position: absolute;
@@ -42,11 +43,11 @@
 
         h1 {
             margin-top: 20px;
-            font-size: 32px;
+            font-size: 28px;
         }
 
         #score {
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 10px;
         }
 
@@ -72,10 +73,11 @@
             transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.95);
             color: #ff4d6d;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             text-align: center;
-            width: 320px;
+            width: 85%;
+            max-width: 350px;
             box-shadow: 0 0 25px rgba(0,0,0,0.3);
         }
 
@@ -105,7 +107,7 @@
 
 <!-- Background -->
 <div class="background">
-    <img src="shizu.jpeg" alt="Shizu">
+    <img src="shizu.jpg" alt="Shizu">
 </div>
 
 <h1>Shizu 💕 Catch My Heart</h1>
@@ -126,9 +128,27 @@
     const basket = document.getElementById("basket");
     const scoreDisplay = document.getElementById("score");
 
-    // Move basket with mouse
+    // Move basket safely (desktop + mobile)
+    function moveBasket(x) {
+        let basketWidth = basket.offsetWidth;
+        let newLeft = x - basketWidth / 2;
+
+        if (newLeft < 0) newLeft = 0;
+        if (newLeft > window.innerWidth - basketWidth)
+            newLeft = window.innerWidth - basketWidth;
+
+        basket.style.left = newLeft + "px";
+    }
+
+    // Desktop
     document.addEventListener("mousemove", function(e) {
-        basket.style.left = e.clientX + "px";
+        moveBasket(e.clientX);
+    });
+
+    // Mobile
+    document.addEventListener("touchmove", function(e) {
+        let touch = e.touches[0];
+        moveBasket(touch.clientX);
     });
 
     function createHeart() {
@@ -173,7 +193,7 @@
 
     document.getElementById("yesBtn").onclick = function() {
         document.getElementById("proposal").innerHTML =
-            "<h2>Love you Shizu 💍❤️</h2><p>You just made me the happiest person alive 💕</p>";
+            "<h2>Yaaay Shizu 💍❤️</h2><p>You just made me the happiest person alive 💕</p>";
     };
 
     const noBtn = document.getElementById("noBtn");
@@ -185,4 +205,3 @@
 
 </body>
 </html>
-
